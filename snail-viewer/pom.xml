@@ -124,6 +124,19 @@
 			<artifactId>jena-core</artifactId>
 			<version>3.0.0</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.github.insubstantial</groupId>
+			<artifactId>flamingo</artifactId>
+			<version>7.3</version>
+		</dependency>
+
+		<dependency> 
+ 			<groupId>com.github.insubstantial</groupId> 
+ 			<artifactId>substance</artifactId> 
+ 			<version>[7,)</version> 
+  		</dependency> 
+
 	</dependencies>
 
 	<build>

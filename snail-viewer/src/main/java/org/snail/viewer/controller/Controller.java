@@ -7,6 +7,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,7 +42,6 @@ import javax.swing.JToolBar;
 import javax.swing.JTree;
 import javax.swing.SwingWorker;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.TreeSelectionEvent;
@@ -64,6 +64,8 @@ import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXMultiSplitPane;
 import org.jdesktop.swingx.MultiSplitLayout;
+import org.pushingpixels.substance.api.SubstanceLookAndFeel;
+import org.pushingpixels.substance.api.skin.ModerateSkin;
 import org.snail.viewer.dialog.OpenDialog;
 import org.snail.viewer.jung.graph.DirectedModelGraph;
 import org.snail.viewer.jung.layout.LatticeLayout;
@@ -77,7 +79,6 @@ import org.snail.viewer.widget.GlassPane;
 
 import com.ezware.dialog.task.TaskDialogs;
 import com.jgoodies.forms.builder.ListViewBuilder;
-import com.jgoodies.looks.windows.WindowsLookAndFeel;
 
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.algorithms.layout.ISOMLayout;
@@ -174,7 +175,7 @@ public class Controller extends JPanel {
 
 	JXButton zoomInButton;
 	JXButton zoomOutButton;
-	
+
 	/**
 	 * Controller
 	 *
@@ -276,7 +277,8 @@ public class Controller extends JPanel {
 						DefaultMutableTreeNode node = (DefaultMutableTreeNode) graphTree.getTree()
 								.getLastSelectedPathComponent();
 
-						if (node == null || node.getParent() == null || node.getParent().toString().equals("Resources")) {
+						if (node == null || node.getParent() == null
+								|| node.getParent().toString().equals("Resources")) {
 
 							glassPane.deactivate();
 
@@ -407,8 +409,8 @@ public class Controller extends JPanel {
 		cellPane.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, Boolean.TRUE);
 		cellPane.setFont(graphTree.getFont());
 
-		MultiSplitLayout.Node modelRoot = MultiSplitLayout
-				.parseModel("(ROW (LEAF name=left weight=0.2) (LEAF name=middle weight=0.6) (LEAF name=right weight=0.2))");
+		MultiSplitLayout.Node modelRoot = MultiSplitLayout.parseModel(
+				"(ROW (LEAF name=left weight=0.2) (LEAF name=middle weight=0.6) (LEAF name=right weight=0.2))");
 
 		mainSplitPane = new JXMultiSplitPane();
 
@@ -545,8 +547,8 @@ public class Controller extends JPanel {
 
 								Preferences preferences = Preferences.userRoot();
 
-								Set<String> sortedUris = new LinkedHashSet<String>(Arrays.asList(StringUtils.split(
-										Preferences.userRoot().get("snail-uris", ""), ",")));
+								Set<String> sortedUris = new LinkedHashSet<String>(Arrays
+										.asList(StringUtils.split(Preferences.userRoot().get("snail-uris", ""), ",")));
 
 								sortedUris.remove(uri);
 
@@ -650,18 +652,31 @@ public class Controller extends JPanel {
 	 */
 	private static void createAndShowGUI() throws Exception {
 
+		System.setProperty(SubstanceLookAndFeel.WINDOW_ROUNDED_CORNERS_PROPERTY, Boolean.FALSE.toString());
+
 		System.setProperty("apple.laf.useScreenMenuBar", "true");
 
-		try {
+		System.setProperty("sun.awt.noerasebackground", "true");
+		System.setProperty("sun.java2d.noddraw", "true");
 
-			UIManager.setLookAndFeel(new WindowsLookAndFeel());
+		JFrame.setDefaultLookAndFeelDecorated(true);
+		JDialog.setDefaultLookAndFeelDecorated(true);
 
-		} catch (UnsupportedLookAndFeelException e) {
-
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-
-		}
-
+		SubstanceLookAndFeel.setSkin(new ModerateSkin());
+		Font font = Font.createFont(Font.TRUETYPE_FONT,
+				Controller.class.getResourceAsStream("/fonts/SourceSansPro-Regular.ttf")).deriveFont(14.0f);
+		UIManager.put("Label.font", font);
+		UIManager.put("Button.font", font);
+		UIManager.put("List.font", font);
+		UIManager.put("Tree.font", font);
+		UIManager.put("Panel.font", font);
+		UIManager.put("ComboBox.font", font);
+		UIManager.put("TextField.font", font);
+		UIManager.put("Menu.font", font);
+		UIManager.put("MenuItem.font", font);
+		UIManager.put("OptionPane.font", font);
+		UIManager.put("InternalFrame.titleFont", font);
+	
 		UIManager.put("Tree.collapsedIcon", createImageIcon("/images/collapsed-icon.png"));
 		UIManager.put("Tree.expandedIcon", createImageIcon("/images/expanded-icon.png"));
 
@@ -705,8 +720,8 @@ public class Controller extends JPanel {
 		viewer.setBorder(BorderFactory.createEtchedBorder());
 
 		GraphZoomScrollPane scrollPanel = new GraphZoomScrollPane(viewer);
-		scrollPanel.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+		scrollPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED),
+				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
 		while (graphContainer.getComponentCount() > 0) {
 			graphContainer.remove(0);
@@ -723,28 +738,28 @@ public class Controller extends JPanel {
 
 		removeActionListeners(zoomInButton);
 		removeActionListeners(zoomOutButton);
-		
+
 		zoomInButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-			
+
 				satelliteScaler.scale(viewer, 1.1f, viewer.getCenter());
-			
+
 			}
-			
+
 		});
-		
+
 		zoomOutButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				satelliteScaler.scale(viewer, 1/1.1f, viewer.getCenter());
+
+				satelliteScaler.scale(viewer, 1 / 1.1f, viewer.getCenter());
 			}
-			
+
 		});
-		
+
 		final PickedState<RDFNode> pickedVertexState = viewer.getPickedVertexState();
 
 		pickedVertexState.addItemListener(new ItemListener() {
@@ -802,7 +817,8 @@ public class Controller extends JPanel {
 
 				};
 
-				if ((pickedVertexState.isPicked((RDFNode) e.getItem()) && (pickedVertexState.getPicked().size() == 1))) {
+				if ((pickedVertexState.isPicked((RDFNode) e.getItem())
+						&& (pickedVertexState.getPicked().size() == 1))) {
 
 					glassPane.activate("Please Wait");
 					pickedVertexCounter.setValue(0);
@@ -812,7 +828,6 @@ public class Controller extends JPanel {
 				if (pickedVertexState.isPicked((RDFNode) e.getItem())) {
 					worker.execute();
 				}
-				
 
 			}
 
@@ -983,15 +998,15 @@ public class Controller extends JPanel {
 	}
 
 	private void removeActionListeners(JXButton button) {
-		
+
 		for (ActionListener listener : button.getActionListeners()) {
-			
+
 			button.removeActionListener(listener);
-			
+
 		}
-		
+
 	}
-	
+
 	public static String local(String key) {
 		try {
 
