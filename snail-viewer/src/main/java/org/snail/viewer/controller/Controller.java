@@ -65,9 +65,8 @@ import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXMultiSplitPane;
 import org.jdesktop.swingx.MultiSplitLayout;
 import org.pushingpixels.substance.api.SubstanceLookAndFeel;
-import org.pushingpixels.substance.api.skin.CeruleanSkin;
-import org.pushingpixels.substance.api.skin.MagellanSkin;
-import org.pushingpixels.substance.api.skin.MistSilverSkin;
+import org.pushingpixels.substance.api.skin.BusinessSkin;
+import org.pushingpixels.substance.api.skin.CremeCoffeeSkin;
 import org.pushingpixels.substance.api.skin.ModerateSkin;
 import org.snail.viewer.dialog.OpenDialog;
 import org.snail.viewer.jung.graph.DirectedModelGraph;
@@ -665,7 +664,7 @@ public class Controller extends JPanel {
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		JDialog.setDefaultLookAndFeelDecorated(true);
 
-		SubstanceLookAndFeel.setSkin(new CeruleanSkin());
+		SubstanceLookAndFeel.setSkin(new BusinessSkin());
 		Font font = Font.createFont(Font.TRUETYPE_FONT,
 				Controller.class.getResourceAsStream("/fonts/SourceSansPro-Regular.ttf")).deriveFont(14.0f);
 		UIManager.put("Label.font", font);
