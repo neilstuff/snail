@@ -45,10 +45,11 @@ public class DirectedModelGraph implements DirectedGraph<RDFNode, Statement> {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public Collection<Statement> getOutEdges(RDFNode vertex) {
 
-		return (vertex.isLiteral()) ? Collections.emptyList() : asCollection(model.listStatements((Resource) vertex,
-				null, (RDFNode) null));
+		return  (Collection<Statement>)((vertex.isLiteral()) ? Collections.emptyList() : asCollection(model.listStatements((Resource) vertex,
+				null, (RDFNode) null)));
 
 	}
 
@@ -58,10 +59,11 @@ public class DirectedModelGraph implements DirectedGraph<RDFNode, Statement> {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public Collection<RDFNode> getSuccessors(RDFNode vertex) {
 
-		return (vertex.isLiteral()) ? Collections.emptyList() : asCollection(model.listObjectsOfProperty(
-				(Resource) vertex, null));
+		return  (Collection<RDFNode>)(((vertex.isLiteral()) ? Collections.emptyList() : asCollection(model.listObjectsOfProperty(
+				(Resource) vertex, null))));
 
 	}
 
@@ -295,9 +297,10 @@ public class DirectedModelGraph implements DirectedGraph<RDFNode, Statement> {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public Collection<Statement> getEdges(EdgeType edge_type) {
 
-		return (edge_type.equals(EdgeType.DIRECTED)) ? getEdges() : Collections.emptyList();
+		return (Collection<Statement>) ((edge_type.equals(EdgeType.DIRECTED)) ? getEdges() : Collections.emptyList());
 
 	}
 

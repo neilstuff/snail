@@ -66,8 +66,6 @@ import org.jdesktop.swingx.JXMultiSplitPane;
 import org.jdesktop.swingx.MultiSplitLayout;
 import org.pushingpixels.substance.api.SubstanceLookAndFeel;
 import org.pushingpixels.substance.api.skin.BusinessSkin;
-import org.pushingpixels.substance.api.skin.CremeCoffeeSkin;
-import org.pushingpixels.substance.api.skin.ModerateSkin;
 import org.snail.viewer.dialog.OpenDialog;
 import org.snail.viewer.jung.graph.DirectedModelGraph;
 import org.snail.viewer.jung.layout.LatticeLayout;
@@ -706,7 +704,7 @@ public class Controller extends JPanel {
 		final SatelliteVisualizationViewer<RDFNode, Statement> satelliteViewer = new SatelliteVisualizationViewer<RDFNode, Statement>(
 				viewer, new Dimension(68, 68));
 
-		ScalingControl satelliteScaler = new CrossoverScalingControl();
+		final ScalingControl satelliteScaler = new CrossoverScalingControl();
 
 		satelliteViewer.scaleToLayout(satelliteScaler);
 
